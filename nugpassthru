@@ -1,0 +1,32 @@
+#define RXD 38
+#define TXD 40
+#define RESET 3
+#define LED 15
+
+void setup() {
+
+  Serial.begin(115200);
+  Serial1.begin(115200,SERIAL_8N1,RXD,TXD);
+  while(!Serial);
+  digitalWrite(RESET,LOW);
+  pinMode(RESET,OUTPUT);
+  delay(250);
+  digitalWrite(RESET,HIGH);
+  pinMode(LED,OUTPUT);
+}
+
+void loop() {
+  if(Serial.available())
+  {
+    Serial1.write(Serial.read());
+  }
+  if(Serial1.available())
+  {
+    digitalWrite(LED,HIGH);
+    Serial.write(Serial1.read());
+  }
+  else
+  {
+    digitalWrite(LED,LOW);
+  }
+}
